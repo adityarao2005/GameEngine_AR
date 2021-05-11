@@ -1,13 +1,20 @@
 #pragma once
 #include <SFML\Graphics.hpp>
+#include "ECS.h"
+#include "Components.h"
+#include "Systems\RenderingSystem.h"
+#include "Systems\AnimationSystem.h"
 
 class Engine
 {
 public:
 	sf::RenderWindow* window;
+	ECS::World* world;
 
 	// start the window
 	void Start(sf::RenderWindow* window);
+
+	void AddSystem(ECS::EntitySystem* system);
 
 	// Singleton - instantiate only once 
 	static Engine& GetInstance();
