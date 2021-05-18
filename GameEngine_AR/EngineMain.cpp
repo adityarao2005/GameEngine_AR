@@ -32,11 +32,10 @@ int main(int argc, char* args[]) {
 	tux->assign<Transform>(200, 200);
 	tux->assign<Sprite2D>("../Debug/Pics/tux_from_linux.png");
 	tux->assign<Animator>(56, 72, 2000.0f, 3, 9);
-	tux->assign<Animator>()->currentRow = 0;
 
 	stickFigure->assign<Transform>(300, 300);
 	stickFigure->assign<Sprite2D>("../Debug/Pics/herosheet.png");
-	tux->assign<Animator>(32, 32, 200.0f, 4, 1);
+	stickFigure->assign<Animator>(32, 32, 200.0f, 4, 1);
 	
 	std::cout << background->getEntityId() << " is the entity ID" << std::endl;
 	std::cout << tux->getEntityId() << " is the entity ID" << std::endl;
