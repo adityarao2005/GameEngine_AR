@@ -30,10 +30,13 @@ public:
 	float currentTime, nextFrameTime;
 	bool facingRight;
 
+	Animator() = default;
+
 	Animator(int spriteWidth, int spriteHeight, float nextFrameTime, int totalColumns, int totalRows) :
 	spriteWidth(spriteWidth), spriteHeight(spriteHeight), nextFrameTime(nextFrameTime), totalColumns(totalColumns), totalRows(totalRows)
 	{
-		currentColumn = currentRow = currentTime = 0;
+		currentColumn = currentRow = 0;
+		currentTime = 0.0f;
 		facingRight = true;
 	}
 };

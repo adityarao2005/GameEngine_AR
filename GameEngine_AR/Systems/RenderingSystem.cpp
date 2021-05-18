@@ -36,8 +36,8 @@ void RenderingSystem::tick(ECS::World* world, float deltaTime)
 
 		if (sprite->self.getTexture() == nullptr) {
 			sprite->self.setTexture(*textureMap[sprite->texture]);
-			sprite->width = sprite->self.getGlobalBounds().width;
-			sprite->height = sprite->self.getGlobalBounds().height;
+			sprite->width = (int) std::floor(sprite->self.getGlobalBounds().width);
+			sprite->height = (int) std::floor(sprite->self.getGlobalBounds().height);
 		}
 		// Update and draw to the screen
 
