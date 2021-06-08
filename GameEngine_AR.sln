@@ -5,6 +5,11 @@ VisualStudioVersion = 15.0.28307.1433
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngine_AR", "GameEngine_AR\GameEngine_AR.vcxproj", "{3FA02C18-0B9B-4739-BDB9-881C72838C38}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewGame", "NewGame\NewGame.vcxproj", "{C8C680D5-81DB-4D92-A1E2-A7B854BF16BF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3FA02C18-0B9B-4739-BDB9-881C72838C38} = {3FA02C18-0B9B-4739-BDB9-881C72838C38}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +26,14 @@ Global
 		{3FA02C18-0B9B-4739-BDB9-881C72838C38}.Release|x64.Build.0 = Release|x64
 		{3FA02C18-0B9B-4739-BDB9-881C72838C38}.Release|x86.ActiveCfg = Release|Win32
 		{3FA02C18-0B9B-4739-BDB9-881C72838C38}.Release|x86.Build.0 = Release|Win32
+		{C8C680D5-81DB-4D92-A1E2-A7B854BF16BF}.Debug|x64.ActiveCfg = Debug|x64
+		{C8C680D5-81DB-4D92-A1E2-A7B854BF16BF}.Debug|x64.Build.0 = Debug|x64
+		{C8C680D5-81DB-4D92-A1E2-A7B854BF16BF}.Debug|x86.ActiveCfg = Debug|Win32
+		{C8C680D5-81DB-4D92-A1E2-A7B854BF16BF}.Debug|x86.Build.0 = Debug|Win32
+		{C8C680D5-81DB-4D92-A1E2-A7B854BF16BF}.Release|x64.ActiveCfg = Release|x64
+		{C8C680D5-81DB-4D92-A1E2-A7B854BF16BF}.Release|x64.Build.0 = Release|x64
+		{C8C680D5-81DB-4D92-A1E2-A7B854BF16BF}.Release|x86.ActiveCfg = Release|Win32
+		{C8C680D5-81DB-4D92-A1E2-A7B854BF16BF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
