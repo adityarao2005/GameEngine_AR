@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Engine.h"
+#include <iostream>
 
 struct Transform {
 public:
@@ -98,8 +99,32 @@ public:
 	}
 };
 
+struct Tag {
+	ECS_DECLARE_TYPE;
+
+	std::vector<std::string> tagnames;
+
+	Tag() = default;
+
+	void addTag(std::string tag) {
+		tagnames.push_back(tag);
+	}
+};
+
+struct Camera {
+	ECS_DECLARE_TYPE;
+
+	sf::View cameraView;
+
+	Camera(sf::Vector2f pivot) {
+		cameraView.setCenter(pivot);
+	}
+};
+
 ECS_DEFINE_TYPE(Transform)
 ECS_DEFINE_TYPE(Sprite2D)
 ECS_DEFINE_TYPE(Animator)
 ECS_DEFINE_TYPE(InputController)
 ECS_DEFINE_TYPE(BoxCollider)
+ECS_DEFINE_TYPE(Tag)
+ECS_DEFINE_TYPE(Camera)

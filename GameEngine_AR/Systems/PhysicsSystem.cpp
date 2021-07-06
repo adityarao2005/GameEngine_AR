@@ -131,57 +131,74 @@ void PhysicsSystem::checkCollisionSides(ECS::Entity * touchingEntity, ECS::Entit
 	float newTouchedY = touchedEntity->get<Transform>()->ypos;
 	float newTouchedXspeed = touchedEntity->get<Transform>()->xspeed;
 	float newTouchedYspeed = touchedEntity->get<Transform>()->yspeed;
-
-	if (newTouchingXspeed > 0 && newTouchingX < newTouchedX) {
-		touchedEntity->get<Transform>()->xpos++;
-	}
-	else if (newTouchingXspeed < 0 && newTouchingX > newTouchedX) {
-		touchedEntity->get<Transform>()->xpos--;
-	}
-	if (newTouchingYspeed > 0 && newTouchingY < newTouchedY) {
-		touchedEntity->get<Transform>()->ypos++;
-	}
-	else if (newTouchingYspeed < 0 && newTouchingY > newTouchedY) {
-		touchedEntity->get<Transform>()->ypos--;
+	
+	if (std::find(
+			touchedEntity->get<Tag>()->tagnames.begin(),
+			touchedEntity->get<Tag>()->tagnames.end(),
+			"Object") != touchedEntity->get<Tag>()->tagnames.end())
+	{
+		if (std::find(
+			touchingEntity->get<Tag>()->tagnames.begin(),
+			touchingEntity->get<Tag>()->tagnames.end(),
+			"Player") != touchingEntity->get<Tag>()->tagnames.end())
+		{
+			if (newTouchingXspeed > 0 && newTouchingX < newTouchedX) {
+				touchedEntity->get<Transform>()->xpos++;
+			}
+			else if (newTouchingXspeed < 0 && newTouchingX > newTouchedX) {
+				touchedEntity->get<Transform>()->xpos--;
+			}
+			if (newTouchingYspeed > 0 && newTouchingY < newTouchedY) {
+				touchedEntity->get<Transform>()->ypos++;
+			}
+			else if (newTouchingYspeed < 0 && newTouchingY > newTouchedY) {
+				touchedEntity->get<Transform>()->ypos--;
+			}
+		}
 	}
 }
 
 void PhysicsSystem::tick(ECS::World * world, float deltaTime)
 {
-	world->each<BoxCollider, Sprite2D, Transform>(
-		[&](ECS::Entity* entity,
-			ECS::ComponentHandle<BoxCollider> collider,
-			ECS::ComponentHandle<Sprite2D> sprite,
-			ECS::ComponentHandle<Transform> transform) -> void {
-		collider->update(
-			transform->xpos,
-			transform->ypos,
-			sprite->self.getTextureRect().width,
-			sprite->self.getTextureRect().height);
-	});
-
-	// collider for box and transform entities
-	world->each<BoxCollider, Transform>(
-		[&](ECS::Entity* touchingEntity,
-			ECS::ComponentHandle<BoxCollider> touchingBox,
-			ECS::ComponentHandle<Transform> transform) -> void {
-		world->each<BoxCollider>(
-			[&](ECS::Entity* touchedEntity,
-				ECS::ComponentHandle<BoxCollider> touchedBox) -> void {
-			// Statement to avoid comparing the same entity to itself
-			// initial collision check
-			if (touchingEntity->getEntityId() == touchedEntity->getEntityId() || !isColliding(touchingBox, touchedBox)) {
-				return;
-			}
-
-			// final collision check
-			checkCollisionSides(touchingEntity, touchedEntity);
+	if (!States::getPause())
+	{
+		world->each<BoxCollider, Sprite2D, Transform>(
+			[&](ECS::Entity* entity,
+				ECS::ComponentHandle<BoxCollider> collider,
+				ECS::ComponentHandle<Sprite2D> sprite,
+				ECS::ComponentHandle<Transform> transform) -> void {
+			collider->update(
+				transform->xpos,
+				transform->ypos,
+				sprite->self.getTextureRect().width,
+				sprite->self.getTextureRect().height);
 		});
-	});
 
-	// actual push
-	world->each<Transform>(
-		[&](ECS::Entity* entity, ECS::ComponentHandle<Transform> transform) -> void {
-		transform->move();
-	});
+		// collider for box and transform entities
+		world->each<BoxCollider, Transform, Tag>(
+			[&](ECS::Entity* touchingEntity,
+				ECS::ComponentHandle<BoxCollider> touchingBox,
+				ECS::ComponentHandle<Transform> transform,
+				ECS::ComponentHandle<Tag> tag1) -> void {
+			world->each<BoxCollider, Tag>(
+				[&](ECS::Entity* touchedEntity,
+					ECS::ComponentHandle<BoxCollider> touchedBox,
+					ECS::ComponentHandle<Tag> tag2) -> void {
+				// Statement to avoid comparing the same entity to itself
+				// initial collision check
+				if (touchingEntity->getEntityId() == touchedEntity->getEntityId() || !isColliding(touchingBox, touchedBox)) {
+					return;
+				}
+
+				// final collision check
+				checkCollisionSides(touchingEntity, touchedEntity);
+			});
+		});
+
+		// actual push
+		world->each<Transform>(
+			[&](ECS::Entity* entity, ECS::ComponentHandle<Transform> transform) -> void {
+			transform->move();
+		});
+	}
 }

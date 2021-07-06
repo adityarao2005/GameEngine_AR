@@ -7,12 +7,16 @@
 #include "Systems\InputSystem.h"
 #include "Systems\MovementSystem.h"
 #include "Systems\PhysicsSystem.h"
+#include "Interface\MainCamera.h"
+#include "Interface\PauseMenu.h"
 
 class Engine
 {
 public:
 	sf::RenderWindow* window;
 	ECS::World* world;
+	MainCamera mainCamera;
+	PauseMenu menu;
 
 	// start the window
 	void Start(sf::RenderWindow* window);
@@ -21,6 +25,8 @@ public:
 
 	// Singleton - instantiate only once 
 	static Engine& GetInstance();
+
+	
 private:
 	bool quit;
 
@@ -31,10 +37,12 @@ private:
 
 	Engine(Engine&& move); // hide move constructor
 
-	Engine& operator =(Engine& copy); // hide assignment operator
+	Engine& operator =(Engine& copy) = default; // hide assignment operator
 
 	~Engine();
 
 	void Update();
+
+	void OnGameInactiveState();
 };
 

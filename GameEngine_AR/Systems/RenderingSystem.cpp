@@ -21,32 +21,34 @@ RenderingSystem::~RenderingSystem() = default;
 
 void RenderingSystem::tick(ECS::World* world, float deltaTime)
 {
-	// clear before drawing all textures
-	Engine::GetInstance().window->clear();
-
-	world->each<struct Transform, struct Sprite2D>(
-		[&](ECS::Entity* entity,
-			ECS::ComponentHandle<Transform> transform,
-			ECS::ComponentHandle<Sprite2D> sprite) -> void
+	if (!States::getPause())
 	{
-		if (textureMap.count(sprite -> texture) < 1) {
-			textureMap[sprite->texture] = loadTexture(sprite->texture);
-		}
-		// if no texture is found then add a texture to the map
+		// clear before drawing all textures
+		Engine::GetInstance().window->clear();
 
-		if (sprite->self.getTexture() == nullptr) {
-			sprite->self.setTexture(*textureMap[sprite->texture]);
-			sprite->width = (int) std::floor(sprite->self.getGlobalBounds().width);
-			sprite->height = (int) std::floor(sprite->self.getGlobalBounds().height);
-		}
-		// Update and draw to the screen
+		world->each<struct Transform, struct Sprite2D>(
+			[&](ECS::Entity* entity,
+				ECS::ComponentHandle<Transform> transform,
+				ECS::ComponentHandle<Sprite2D> sprite) -> void
+		{
+			if (textureMap.count(sprite->texture) < 1) {
+				textureMap[sprite->texture] = loadTexture(sprite->texture);
+			}
+			// if no texture is found then add a texture to the map
 
+			if (sprite->self.getTexture() == nullptr) {
+				sprite->self.setTexture(*textureMap[sprite->texture]);
+				sprite->width = (int)std::floor(sprite->self.getGlobalBounds().width);
+				sprite->height = (int)std::floor(sprite->self.getGlobalBounds().height);
+			}
+			// Update and draw to the screen
 
-		sprite->self.setPosition(transform->xpos, transform->ypos);
-		Engine::GetInstance().window->draw(sprite->self);
-		
-	});
+			sprite->self.setPosition(transform->xpos, transform->ypos);
+			Engine::GetInstance().window->draw(sprite->self);
 
-	// display update
-	Engine::GetInstance().window->display();
+		});
+
+		// display update
+		Engine::GetInstance().window->display();
+	}
 }

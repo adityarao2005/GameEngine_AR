@@ -15,6 +15,7 @@ int main(int argc, char* args[]) {
 	ECS::Entity* background;
 	ECS::Entity* tux;
 	ECS::Entity* stickFigure;
+	ECS::Entity* gun;
 
 	// Add Systems to the engine
 	engine.AddSystem(new RenderingSystem());
@@ -27,6 +28,7 @@ int main(int argc, char* args[]) {
 	background = engine.world->create();
 	tux = engine.world->create();
 	stickFigure = engine.world->create();
+	gun = engine.world->create();
 
 	// Assign components after entity creation
 	background->assign<Transform>(0, 0);
@@ -37,11 +39,20 @@ int main(int argc, char* args[]) {
 	tux->assign<Animator>(56, 72, 2000.0f, 3, 9);
 	tux->assign<InputController>();
 	tux->assign<BoxCollider>();
+	tux->assign<Tag>();
+	tux->assign<MainCamera>(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2));
+	tux->get<Tag>()->addTag("Player");
 
 	stickFigure->assign<Transform>(300, 300);
 	stickFigure->assign<Sprite2D>("../Debug/Pics/herosheet.png");
 	stickFigure->assign<Animator>(32, 32, 200.0f, 4, 1);
 	stickFigure->assign<BoxCollider>();
+
+	gun->assign<Transform>(300, 300);
+	gun->assign<Sprite2D>("../Debug/Pics/pistol.png");
+	gun->assign<BoxCollider>();
+	gun->assign<Tag>();
+	gun->get<Tag>()->addTag("Object");
 
 	std::cout << background->getEntityId() << " is the entity ID" << std::endl;
 	std::cout << tux->getEntityId() << " is the entity ID" << std::endl;
