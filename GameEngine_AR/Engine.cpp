@@ -49,7 +49,6 @@ void Engine::Update()
 	mainCamera.Update(world, 10.0f, window);
 	if (States::getPause()) {
 		OnGameInactiveState();
-		States::setPause(true);
 	}
 }
 

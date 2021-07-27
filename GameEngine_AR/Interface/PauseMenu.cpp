@@ -4,7 +4,7 @@ PauseMenu::PauseMenu() = default;
 
 PauseMenu::PauseMenu(sf::RenderWindow * window)
 {
-	States::setPause(true);
+	States::setPause(false);
 	InitButtons();
 }
 
@@ -12,9 +12,10 @@ PauseMenu::~PauseMenu() = default;
 
 void PauseMenu::Update(sf::Event event, float deltaTime, sf::RenderWindow * window)
 {
-	if (event.type == sf::Event::KeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+	if (event.type == sf::Event::KeyPressed)
 	{
-		States::setPause(!States::getPause());
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+			States::setPause(!States::getPause());
 	}
 
 	if (States::getPause()) {

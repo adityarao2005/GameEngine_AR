@@ -66,7 +66,7 @@ void Button::checkPressed(sf::Event event)
 		}
 	}
 	else {
-		released = true;
-		clicked = true;
+		released = false;
+		clicked = false;
 	}
 }

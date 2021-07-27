@@ -4,6 +4,7 @@
 #include "Components.h"
 #include "Systems\RenderingSystem.h"
 #include "Systems\AnimationSystem.h"
+#include "Systems\TileMapSystem.h"
 #include "Systems\InputSystem.h"
 #include "Systems\MovementSystem.h"
 #include "Systems\PhysicsSystem.h"

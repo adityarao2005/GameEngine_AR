@@ -23,6 +23,7 @@ int main(int argc, char* args[]) {
 	engine.AddSystem(new InputSystem(&window));
 	engine.AddSystem(new MovementSystem());
 	engine.AddSystem(new PhysicsSystem());
+	engine.AddSystem(new TileMapSystem());
 
 	// Creating the entities
 	background = engine.world->create();
@@ -33,6 +34,7 @@ int main(int argc, char* args[]) {
 	// Assign components after entity creation
 	background->assign<Transform>(0, 0);
 	background->assign<Sprite2D>("../Debug/Pics/bg.jpg");
+	background->assign<TileMap>();
 
 	tux->assign<Transform>(200, 200, 0.3f, 0.3f);
 	tux->assign<Sprite2D>("../Debug/Pics/tux_from_linux.png");

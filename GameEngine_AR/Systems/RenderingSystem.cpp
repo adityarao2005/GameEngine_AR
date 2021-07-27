@@ -23,32 +23,68 @@ void RenderingSystem::tick(ECS::World* world, float deltaTime)
 {
 	if (!States::getPause())
 	{
-		// clear before drawing all textures
+		// Clear before drawing all textures
 		Engine::GetInstance().window->clear();
 
 		world->each<struct Transform, struct Sprite2D>(
 			[&](ECS::Entity* entity,
 				ECS::ComponentHandle<Transform> transform,
-				ECS::ComponentHandle<Sprite2D> sprite) -> void
+				ECS::ComponentHandle<Sprite2D> sprite
+				) -> void
 		{
-			if (textureMap.count(sprite->texture) < 1) {
+			// Check if an entity has their filePath loaded
+			if (textureMap.count(sprite->texture) < 1)
+			{
 				textureMap[sprite->texture] = loadTexture(sprite->texture);
 			}
-			// if no texture is found then add a texture to the map
 
-			if (sprite->self.getTexture() == nullptr) {
+			// If no filePath is found, add it
+			if (sprite->self.getTexture() == nullptr)
+			{
 				sprite->self.setTexture(*textureMap[sprite->texture]);
 				sprite->width = (int)std::floor(sprite->self.getGlobalBounds().width);
 				sprite->height = (int)std::floor(sprite->self.getGlobalBounds().height);
 			}
-			// Update and draw to the screen
 
+			// Update and draw to the screen
 			sprite->self.setPosition(transform->xpos, transform->ypos);
 			Engine::GetInstance().window->draw(sprite->self);
-
 		});
 
-		// display update
+		world->each<struct TileMap>(
+			[&](ECS::Entity* ent,
+				ECS::ComponentHandle<struct TileMap> tileMap) -> void
+		{
+			// Loop through each tile and render onto the engine's window instance
+			// note that this is looping through a vector which stores a vector, which stores the tile value
+			for (auto& x : tileMap->map)
+			{
+				for (auto& y : x)
+				{
+					for (auto& z : y)
+					{
+						if (z == nullptr)
+						{
+							continue;
+						}
+
+						sf::RenderWindow* _winRef = Engine::GetInstance().window;
+
+						_winRef->draw(z->shape);
+
+						if (z->GetCollision() == true)
+						{
+							tileMap->collisionBox.setPosition(z->GetPosition());
+							_winRef->draw(tileMap->collisionBox);
+						}
+
+						//std::cout << "Placed" << std::endl;
+					}
+				}
+			}
+		});
+
+		// Display updates
 		Engine::GetInstance().window->display();
 	}
 }
