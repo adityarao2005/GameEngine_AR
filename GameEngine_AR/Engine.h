@@ -16,7 +16,7 @@ class Engine
 public:
 	sf::RenderWindow* window;
 	ECS::World* world;
-	MainCamera mainCamera;
+	//MainCamera mainCamera;
 	PauseMenu menu;
 
 	// start the window

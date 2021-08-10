@@ -19,13 +19,15 @@ public:
 		float xpos,
 		float ypos,
 		float xspeed = 0.0f,
-		float yspeed = 0.0f) : 
+		float yspeed = 0.0f,
+		float rotation = 0.0f) : 
 		xpos(xpos),
 		ypos(ypos),
 		xspeed(xspeed),
 		yspeed(yspeed),
 		xspeedMod(xspeed),
-		yspeedMod(yspeed) 
+		yspeedMod(yspeed), 
+		rotation(rotation)
 	{}
 
 	void updateSpeed(float x, float y) {
@@ -35,12 +37,6 @@ public:
 
 	void move() {
 		if (!colliding) {
-			// halve the speed when moving diagonally
-			if (xspeed != 0 &&	yspeed != 0) {
-				xspeed /= 2;
-				yspeed /= 2;
-			}
-
 			xpos += xspeed;
 			ypos += yspeed;
 		}

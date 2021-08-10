@@ -1,0 +1,5 @@
+GameEngine ideas
+
+- Customization: Listeners (key and mouse)
+- Editor system: Level Editor, ...
+- Sharpshooter: Soldiers, Enemy, Bullet, Weapons
