@@ -1,0 +1,4 @@
+﻿  Bullet.cpp
+c:\users\raos\documents\c++\gameengine_ar\gameengine_ar\components.h(208): warning C4244: 'argument': conversion from 'const uint32_t' to 'float', possible loss of data
+c:\users\raos\documents\c++\gameengine_ar\gameengine_ar\components.h(300): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  NewGame.vcxproj -> C:\Users\Raos\Documents\C++\GameEngine_AR\Debug\NewGame.exe
